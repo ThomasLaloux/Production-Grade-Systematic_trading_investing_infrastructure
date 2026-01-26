@@ -1,14 +1,14 @@
 # Systematic Trading Infrastructure - Architecture Design
 
 ## Overview
-Core infrastructure for a systematic trading/investing system (ongoing development), ensuring modularity/flexibility and scalability.
+Core infrastructure for a systematic trading/investing system (on-going development), ensuring modularity/flexibility and scalability.
 - **Data Management**: Parquet/DuckDB storage with data quality checks; later: PostgreSQL for audit purpose (transactions & parameters files)
-- **Broker Abstraction**: Unified interface for Interactive Brokers, Yahoo Finance, Oanda and two optional ones
-- **Strategy Framework**: Stateful-ready strategies, lookahead bias prevention
+- **Broker Abstraction**: Unified interface for Interactive Brokers, Yahoo Finance, Oanda and two optional brokers
+- **Strategy Framework**: Stateful ready strategies, lookahead bias prevention
 - **Backtesting Engine**: Event-driven backtesting with intrabar fills, custom backtesting engine
-- **Walk-Forward Optimization**: Rolling/Anchored walk-forward optimization under constraints, overfitting prevention
+- **Walk-Forward Optimization**: Rolling/anchored walk-forward optimization under constraints, overfitting prevention
 - **Portfolio Construction**: (Un)correlation-based portfolio building
-- **Live Trading Engine**: Live trading engine (ongoing): state management, lookahead bias prevention, order execution, slippage tracking, recovery, commission structure
+- **Live Trading Engine**: Live trading engine (on-going): state management, lookahead bias prevention, order execution, slippage tracking, crash recovery, commission structure
 - **Reporting**: Metrics calculation, chart generation (equity/balance curves, drawdown), CSV export; next: advanced dashboards, charts, transaction cost analysis
 
 ## Project Structure
@@ -82,8 +82,9 @@ trading_system/
 │   ├── csv_exporter.py                # CSVExporter
 │   └── report_generator.py            # ReportGenerator
 ├── utils/
-│   └── __init__.py                    # Re-exports for backward compatibility
-│   └── __init__.py                    # Re-exports for backward compatibility
+│   ├── __init__.py
+│   ├── logging.py                     # TradeLogger
+│   └── validators.py                  # For symbol, timeframe, price, quantities, date range
 └── tests/
     ├── __init__.py
     ├── test_config.py
