@@ -1,15 +1,15 @@
 # Systematic Trading Infrastructure - Architecture Design
 
 ## Overview
-Core infrastructure for a systematic trading/investing system (on-going development), ensuring modularity/flexibility and scalability.
-- **Data Management**: Parquet/DuckDB storage with data quality checks; later: PostgreSQL for audit purpose (transactions & parameters files)
+Core infrastructure for a systematic trading/investing system (on-going development)
+- **Data Management**: Parquet/DuckDB storage with data quality checks
 - **Broker Abstraction**: Unified interface for Interactive Brokers, Yahoo Finance, Oanda and two optional brokers
-- **Strategy Framework**: Stateful ready strategies, lookahead bias prevention
+- **Strategy Framework**: Stateful ready strategies
 - **Backtesting Engine**: Event-driven backtesting with intrabar fills, custom backtesting engine
-- **Walk-Forward Optimization**: Rolling/anchored walk-forward optimization under constraints, overfitting prevention
+- **Walk-Forward Optimization**: Walk-forward optimization
 - **Portfolio Construction**: (Un)correlation-based portfolio building
-- **Live Trading Engine**: Live trading engine (on-going): state management, lookahead bias prevention, order execution, slippage tracking, crash recovery, commission structure
-- **Reporting**: Metrics calculation, chart generation (equity/balance curves, drawdown), CSV export; next: advanced dashboards, charts, transaction cost analysis
+- **Live Trading Engine**: Live trading engine (on-going)
+- **Reporting**: Metrics calculation, chart generation (equity/balance curves, drawdown), CSV export
 
 ## Project Structure
 ```
