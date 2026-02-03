@@ -46,9 +46,9 @@ trading_system/
 ├── indicators/
 │   ├── __init__.py
 │   ├── indicator_base.py              # IndicatorBase - abstract indicator
-│   ├── trend_indicators.py            # SMA, EMA, MACD, LMACD
-│   ├── momentum_indicators.py         # RSI
-│   └── volatility_indicators.py       # ATR, BollingerBands
+│   ├── trend_indicators.py            # SMA (testing purpose)
+│   ├── momentum_indicators.py
+│   └── volatility_indicators.py
 ├── strategies/
 │   ├── __init__.py
 │   ├── strategy_configurator.py       # StrategyConfigurator
