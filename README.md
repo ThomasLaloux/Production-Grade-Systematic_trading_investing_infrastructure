@@ -1,4 +1,4 @@
-# Systematic Trading Infrastructure - Architecture Design
+# Productio-Grade Systematic Trading Infrastructure - Architecture Design
 
 ## Overview
 Core infrastructure for a systematic trading/investing system (on-going development)
@@ -8,7 +8,8 @@ Core infrastructure for a systematic trading/investing system (on-going developm
 - **Backtesting Engine**: Event-driven backtesting with intrabar fills, custom backtesting engine
 - **Walk-Forward Optimization**: Walk-forward optimization
 - **Portfolio Construction**: (Un)correlation-based portfolio building
-- **Live Trading Engine**: Live trading engine (on-going)
+- **Live Trading Engine**: Real-time data collection, signal assessment, order execution, position management, crash recovery, audit trail
+- **Charting**: Static (equity curve, max drawdown, performance metrics), dynamic (signals visualization)
 - **Reporting**: Metrics calculation, chart generation (equity/balance curves, drawdown), CSV export
 
 ## Project Structure
