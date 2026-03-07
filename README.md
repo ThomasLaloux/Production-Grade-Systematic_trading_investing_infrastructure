@@ -132,7 +132,7 @@ Each module has its own configurator and YAML file:
 | backtest | BacktestConfigurator | backtest/backtest_params.yaml |
 | optimization | OptimizationConfigurator | optimization/optimization_params.yaml |
 | portfolio | PortfolioConfigurator | portfolio/portfolio_params.yaml |
-| live | LiveConfigurator | live_params.yaml |
+| live | LiveConfigurator | live/live_params.yaml |
 
 
 ## Two Configuration Approaches
