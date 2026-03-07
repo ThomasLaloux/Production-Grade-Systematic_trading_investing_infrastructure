@@ -69,13 +69,36 @@ trading_system/
 │   ├── walk_forward.py                # WalkForwardOptimizer, WalkForwardResult
 │   ├── grid_search.py                 # ParameterGrid, GridSearchOptimizer
 │   ├── display_walkforward.py         # display_walkforward_results functions
+│   ├── display_advanced.py            # display_advanced_wf_results, charts (Phase 3)
 │   └── optimization_params.yaml       # WF settings, filtering, param grids
 ├── portfolio/
 │   ├── __init__.py
 │   ├── portfolio_configurator.py      # PortfolioConfigurator
 │   └── portfolio_params.yaml          # Portfolio construction settings
+├── charting/
+│   ├── __init__.py                    # Module entry: launch_chart, ChartServer, prepare_chart_data
+│   └── chart_server.py                # Dash + Plotly: price and trades viewer
 ├── live/
-│   ├── __init__.py                    # Ongoing development
+│   ├── __init__.py
+│   ├── live_engine.py                 # LiveTradingEngine — main orchestrator
+│   ├── live_configurator.py           # LiveConfigurator — YAML-driven settings
+│   ├── live_params.yaml               # Live trading parameters
+│   ├── bar_timer.py                   # BarTimer — bar completion detection
+│   ├── data_validator.py              # DataValidator — data recency/warmup
+│   ├── position_sizer.py              # PositionSizer — lot rounding, min/max
+│   ├── order_executor.py              # OrderExecutor — order placement, SL/TP, partial fills
+│   ├── state_reconciler.py            # StateReconciler — broker state sync
+│   ├── risk_checks.py                 # PreTradeRiskCheck — circuit breakers
+│   ├── market_hours.py                # MarketHoursFilter — session filter
+│   ├── slippage_tracker.py            # SlippageTracker — fill tracking
+│   ├── heartbeat.py                   # HeartbeatMonitor — connectivity
+│   ├── audit_trail.py               # AuditTrail — audit trail CSV+parquet
+│   ├── spread_filter.py              # SpreadFilter — bid-ask spread check
+│   ├── kill_switch.py                # KillSwitch — emergency flatten
+│   ├── execution_monitor.py          # ExecutionQualityMonitor — fill metrics
+│   ├── paper_broker.py               # PaperBroker — simulated fill engine
+│   ├── shadow_runner.py              # ShadowRunner — backtest-live parity
+│   └── shadow_report.py              # ShadowParityReport — parity report
 ├── reporting/
 │   ├── __init__.py
 │   ├── metrics_calculator.py          # MetricsCalculator, PerformanceMetrics
@@ -108,6 +131,8 @@ Each module has its own configurator and YAML file:
 | backtest | BacktestConfigurator | backtest/backtest_params.yaml |
 | optimization | OptimizationConfigurator | optimization/optimization_params.yaml |
 | portfolio | PortfolioConfigurator | portfolio/portfolio_params.yaml |
+| live | LiveConfigurator | live_params.yaml |
+
 
 ## Two Configuration Approaches
 
@@ -116,4 +141,4 @@ Each module has its own configurator and YAML file:
 **Approach B (Production)**: Parameters loaded from YAML file - auditable, version-controlled
 
 ## License
-Proprietary - Internal Use Only
+Proprietary - Internal Use Only - Open to Opportunities
