@@ -1,4 +1,4 @@
-# Productio-Grade Systematic Trading Infrastructure - Architecture Design
+# Production-Grade Systematic Trading Infrastructure - Architecture Design
 
 ## Overview
 Core infrastructure for a systematic trading/investing system (on-going development)
