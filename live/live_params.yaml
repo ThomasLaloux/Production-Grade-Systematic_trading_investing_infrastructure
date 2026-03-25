@@ -1,0 +1,280 @@
+# ============================================================================
+# LIVE TRADING PARAMETERS
+# ============================================================================
+# All parameters are EXPLICIT — no hidden defaults.
+# Account-level circuit breakers and engine-level settings.
+#
+# Strategy-level risk (_risk_pct, _max_trades_per_day) is in
+# strategy_params_prod.yaml — NOT here.
+#
+# Lot sizing (min_lot, max_lot, lot_step) is in instruments.yaml.
+#
+# Market hours are in brokers.yaml (per broker, per asset class).
+# ============================================================================
+
+live:
+  # -------------------------------------------------------------------------
+  # Engine settings
+  # -------------------------------------------------------------------------
+  engine:
+    # History window: max bars kept in rolling DataFrame.
+    # Actual window = max(history_window, strategy warmup period).
+    # Comment: to be refined later if/when using a portfolio of strategies.
+    history_window: 5000
+
+    # Poll interval in seconds for bar completion check.
+    # 5s is sufficient for M15 — strategy acts on completed bars only.
+    # Reduce to 1-2s for M1 strategies.
+    poll_interval_seconds: 5
+
+    # Timeframe for the live trading session (must match strategy expectation).
+    timeframe: "M1"
+
+  # -------------------------------------------------------------------------
+  # Circuit breakers — account-level risk limits
+  # -------------------------------------------------------------------------
+  # These are portfolio/account-level limits, NOT strategy-level.
+  # Strategy-level risk_pct is in strategy_params_prod.yaml.
+  circuit_breakers:
+    # Max daily drawdown as fraction of equity at start of day.
+    # If cumulative daily P&L < -(balance_at_day_start * max_daily_dd_pct): halt.
+    max_daily_dd_pct: 0.05
+
+    # Max total drawdown as fraction of initial balance/equity.
+    # If equity < initial_equity * (1 - max_total_dd_pct): halt.
+    max_total_dd_pct: 0.10
+
+    # Max position size in lots for a single order (portfolio-level cap).
+    # Acts as a safety net beyond instrument-level max_lot_size.
+    max_position_lots: 100.0
+
+  # -------------------------------------------------------------------------
+  # Data validation
+  # -------------------------------------------------------------------------
+  data_validation:
+    # Max acceptable gap in bars within a trading session before warning.
+    # Gaps below this are forward-filled; gaps above this trigger a warning.
+    max_gap_bars: 5
+
+    # Forward-fill missing intraday bars (option 2 from design doc).
+    forward_fill_gaps: true
+
+  # -------------------------------------------------------------------------
+  # Market hours
+  # -------------------------------------------------------------------------
+  # The actual session definitions are in brokers.yaml (per broker).
+  # This section controls the engine's market hours behavior.
+  market_hours:
+    # Asset class for this trading session.
+    # Must match a key in brokers.yaml market_hours section.
+    # Options: "forex", "metals", "indices"
+    asset_class: "metals"
+
+    # Enable/disable market hours filtering.
+    # If false, the engine trades at any time (useful for testing).
+    enabled: true
+
+  # -------------------------------------------------------------------------
+  # Heartbeat / connectivity monitoring
+  # -------------------------------------------------------------------------
+  heartbeat:
+    # Enable/disable heartbeat monitoring background thread.
+    enabled: true
+
+    # Seconds between health checks.
+    check_interval_seconds: 30
+
+    # If broker server time is older than this many seconds vs system time
+    # (during market hours), flag as stale data.
+    stale_data_threshold_seconds: 120
+
+  # -------------------------------------------------------------------------
+  # Slippage tracking
+  # -------------------------------------------------------------------------
+  slippage:
+    # Enable/disable slippage tracking.
+    enabled: true
+
+  # -------------------------------------------------------------------------
+  # Spread filter
+  # -------------------------------------------------------------------------
+  # Pre-trade spread check — skips signals when bid-ask spread is
+  # abnormally wide (news events, low liquidity, off-hours).
+  spread_filter:
+    # Enable/disable spread filtering before order submission.
+    enabled: false
+
+    # Maximum allowed spread in pips.
+    # If current spread > this value, the signal is skipped.
+    # Set per instrument; this is the default for the active instrument.
+    # For XAUUSD (pip_size=0.01): 5.0 pips = $0.05 spread.
+    # For EURUSD (pip_size=0.0001): 3.0 pips = 0.0003 spread.
+    max_spread_pips: 5.0
+
+  # -------------------------------------------------------------------------
+  # Audit trail
+  # -------------------------------------------------------------------------
+  # Append-only audit trail: CSV buffer (in-session, crash-safe) + parquet 
+  # (analysis). Records every signal, order, fill, risk check, and cycle.
+  audit_trail:
+    # Enable/disable audit trail.
+    enabled: true
+
+    # Directory for audit files (relative to project root).
+    # Created automatically if not exists.
+    audit_dir: "_audit"
+
+    # Flush CSV to disk every N records. 
+    # 1 = flush every record (safest, recommended for live).
+    flush_interval_records: 1
+
+  # -------------------------------------------------------------------------
+  # Partial fill handling
+  # -------------------------------------------------------------------------
+  # Re-enter for unfilled quantity when limit orders are partially filled.
+  partial_fills:
+    # Enable/disable automatic re-entry for partial fills.
+    enabled: true
+
+    # Max re-entry attempts for unfilled quantity.
+    # Prevents infinite loops on persistent partial fills.
+    max_retries: 3
+
+  # -------------------------------------------------------------------------
+  # Kill switch / emergency flatten
+  # -------------------------------------------------------------------------
+  # Emergency mechanism to close all positions, cancel pending orders,
+  # and halt the engine. Monitors a sentinel file in a background thread.
+  # To trigger externally: create/touch the sentinel file.
+  kill_switch:
+    # Enable/disable kill switch monitoring.
+    enabled: true
+
+    # Path to the sentinel file to monitor.
+    # If this file exists, the kill switch activates immediately.
+    # After activation, the file is renamed with a .triggered.<timestamp> suffix.
+    # To trigger: touch KILL_SWITCH (or echo "reason" > KILL_SWITCH)
+    sentinel_path: "KILL_SWITCH"
+
+    # Seconds between sentinel file checks.
+    # 1s provides near-instant response to external triggers.
+    poll_interval_seconds: 1
+
+  # -------------------------------------------------------------------------
+  # Idempotent order submission
+  # -------------------------------------------------------------------------
+  # Prevents duplicate orders on retries after timeouts.
+  # Uses deterministic client_order_id from signal context.
+  idempotency:
+    # Enable/disable idempotent order submission.
+    # When enabled, a deterministic client_order_id is generated from
+    # (strategy, symbol, timeframe, signal_timestamp, direction) and
+    # duplicate submissions are rejected locally.
+    enabled: true
+
+  # -------------------------------------------------------------------------
+  # Execution quality monitoring
+  # -------------------------------------------------------------------------
+  # Tracks per-broker execution quality: fill latency, rejection rate,
+  # requote frequency, slippage by time-of-day and volatility regime.
+  # Goes beyond SlippageTracker (P1.2) to inform broker selection decisions.
+  execution_monitor:
+    # Enable/disable execution quality monitoring.
+    enabled: true
+
+    # Directory for execution quality parquet files (created if not exists).
+    # Daily files: <date>_execution_quality.parquet
+    output_dir: "audit/execution_quality"
+
+  # -------------------------------------------------------------------------
+  # Paper trading mode
+  # -------------------------------------------------------------------------
+  # Simulated fill engine — routes all orders through PaperBroker
+  # instead of the real broker. Uses the same code path (risk checks,
+  # spread filter, audit trail, slippage tracking, execution monitor,
+  # kill switch, idempotency) — only the fill is simulated.
+  #
+  # The real broker is still used for market data (tick prices, server
+  # time, instrument metadata). No capital is at risk.
+  paper_trade:
+    # Enable/disable paper trading mode.
+    # When true, all orders are routed through PaperBroker.
+    # When false, orders go to the real broker (live trading).
+    enabled: true
+
+    # Starting virtual balance for paper account.
+    initial_balance: 100000.0
+
+    # Simulated slippage in pips applied to each fill.
+    # BUY fills at ask + slippage; SELL fills at bid - slippage.
+    # Set to 0 for ideal fills (not recommended for realistic testing).
+    slippage_pips: 0.5
+
+    # Commission per lot (round-turn) deducted from virtual balance
+    # at each fill. Set per instrument; this is the default.
+    # For XAUUSD: ~$7/lot is typical for ECN brokers.
+    # For EURUSD: ~$7/lot is typical for ECN brokers.
+    commission_per_lot: 7.0
+
+  # -------------------------------------------------------------------------
+  # Shadow mode / live validation
+  # -------------------------------------------------------------------------
+  # Runs the backtest engine and a simulated live engine on the SAME
+  # historical data, then compares signals, SL/TP levels, and position
+  # sizes. Confirms backtest-live parity before deploying real capital.
+  #
+  # Two modes:
+  #   'full'    — initialize strategy once with all data (fast).
+  #               Tests signal generation parity. Recommended first pass.
+  #   'rolling' — re-initialize strategy per bar with windowed data (slower).
+  #               Tests full live pipeline including indicator windowing.
+  #
+  # Run via: ShadowRunner.run(_mode='full') or ShadowRunner.run(_mode='rolling')
+  shadow_mode:
+    # Comparison mode: 'rolling' only (P1.1 unification made 'full' mode
+    # redundant — backtest/live code path parity is guaranteed by construction).
+    # Rolling mode tests windowed indicator computation effects.
+    mode: "rolling"
+
+    # Position size tolerance in lots.
+    # 0.0 = require exact match after lot-step rounding.
+    # Set to lot_step value for one-step tolerance (handles floating
+    # point edge cases in floor division).
+    position_size_tolerance: 0.0
+
+    # History window for rolling mode (bars).
+    # Should match engine.history_window for realistic parity testing.
+    # Ignored in 'full' mode.
+    history_window: 5000
+
+  # -------------------------------------------------------------------------
+  # Logging
+  # -------------------------------------------------------------------------
+  logging:
+    # Log level for live engine: DEBUG, INFO, WARNING, ERROR
+    level: "INFO"
+
+    # Log file path (relative to project root)
+    log_file: "live_trading.log"
+
+    # Print recomputation times to terminal
+    print_timing: true
+
+  # -------------------------------------------------------------------------
+  # Economic calendar & news filter (Finnhub API)
+  # -------------------------------------------------------------------------
+  # Finnhub free-tier API key for economic calendar events and market
+  # holidays.  Used by:
+  #   - LiveTradingEngine: updates calendar DB before each session.
+  #   - DataQualityChecker: holiday-aware gap detection.
+  #   - NewsFilter: high-impact news blackout windows.
+  #   - Related test section in __main__.py.
+  calendar_news:
+    # Finnhub API key (free tier — 60 calls/minute)
+    finnhub_api_key: "d6mia2hr01qi0ajmb4f0d6mia2hr01qi0ajmb4fg"
+
+    # Local storage directory for calendar parquet/CSV files
+    calendar_db_dir: "data/calendar_news_db"
+
+    # Earliest date for initial historical backfill
+    backfill_start: "2023-01-01"
