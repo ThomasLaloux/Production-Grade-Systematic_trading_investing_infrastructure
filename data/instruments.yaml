@@ -1,0 +1,586 @@
+# Instruments configuration
+# Structure: instruments -> broker_name -> symbol -> specifications
+# USD-denominated forex pairs + indices + crypto
+
+instruments:
+  oanda:
+    EURUSD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: EUR
+      currency_quote: USD
+      description: Euro vs US Dollar
+      asset_class: forex
+    GBPUSD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: GBP
+      currency_quote: USD
+      description: British Pound vs US Dollar
+      asset_class: forex
+    USDJPY:
+      pip_size: 0.01
+      contract_size: 100000
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: JPY
+      description: US Dollar vs Japanese Yen
+      asset_class: forex
+    AUDUSD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: AUD
+      currency_quote: USD
+      description: Australian Dollar vs US Dollar
+      asset_class: forex
+    NZDUSD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: NZD
+      currency_quote: USD
+      description: New Zealand Dollar vs US Dollar
+      asset_class: forex
+    USDCAD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: CAD
+      description: US Dollar vs Canadian Dollar
+      asset_class: forex
+    USDCHF:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: CHF
+      description: US Dollar vs Swiss Franc
+      asset_class: forex
+
+  icm_mt5:
+    EURUSD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 7.0
+      min_lot_size: 0.01
+      max_lot_size: 500.0
+      lot_step: 0.01
+      currency_base: EUR
+      currency_quote: USD
+      description: Euro vs US Dollar
+      asset_class: forex
+    GBPUSD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 7.0
+      min_lot_size: 0.01
+      max_lot_size: 500.0
+      lot_step: 0.01
+      currency_base: GBP
+      currency_quote: USD
+      description: British Pound vs US Dollar
+      asset_class: forex
+    USDJPY:
+      pip_size: 0.01
+      contract_size: 100000
+      commission: 7.0
+      min_lot_size: 0.01
+      max_lot_size: 500.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: JPY
+      description: US Dollar vs Japanese Yen
+      asset_class: forex
+    AUDUSD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 7.0
+      min_lot_size: 0.01
+      max_lot_size: 500.0
+      lot_step: 0.01
+      currency_base: AUD
+      currency_quote: USD
+      description: Australian Dollar vs US Dollar
+      asset_class: forex
+    NZDUSD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 7.0
+      min_lot_size: 0.01
+      max_lot_size: 500.0
+      lot_step: 0.01
+      currency_base: NZD
+      currency_quote: USD
+      description: New Zealand Dollar vs US Dollar
+      asset_class: forex
+    USDCAD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 7.0
+      min_lot_size: 0.01
+      max_lot_size: 500.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: CAD
+      description: US Dollar vs Canadian Dollar
+      asset_class: forex
+    USDCHF:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 7.0
+      min_lot_size: 0.01
+      max_lot_size: 500.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: CHF
+      description: US Dollar vs Swiss Franc
+      asset_class: forex
+    XAUUSD:
+      pip_size: 0.01
+      contract_size: 100
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: XAU
+      currency_quote: USD
+      description: Gold vs US Dollar
+      asset_class: commodity
+    XAGUSD:
+      pip_size: 0.01
+      contract_size: 100
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: XAG
+      currency_quote: USD
+      description: Silver vs US Dollar
+      asset_class: commodity
+    US100:
+      pip_size: 0.1
+      contract_size: 1
+      commission: 0.0
+      min_lot_size: 0.1
+      max_lot_size: 100.0
+      lot_step: 0.1
+      currency_base: USD
+      currency_quote: USD
+      description: Nasdaq 100 Index
+      asset_class: index
+    US30:
+      pip_size: 0.1
+      contract_size: 1
+      commission: 0.0
+      min_lot_size: 0.1
+      max_lot_size: 100.0
+      lot_step: 0.1
+      currency_base: USD
+      currency_quote: USD
+      description: Dow Jones 30 Index
+      asset_class: index
+    US500:
+      pip_size: 0.1
+      contract_size: 1
+      commission: 0.0
+      min_lot_size: 0.1
+      max_lot_size: 100.0
+      lot_step: 0.1
+      currency_base: USD
+      currency_quote: USD
+      description: S&P 500 Index
+      asset_class: index
+    BTCUSD:
+      pip_size: 0.01
+      contract_size: 1
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 10.0
+      lot_step: 0.01
+      currency_base: BTC
+      currency_quote: USD
+      description: Bitcoin vs US Dollar
+      asset_class: crypto
+    ETHUSD:
+      pip_size: 0.01
+      contract_size: 1
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 10.0
+      lot_step: 0.01
+      currency_base: BTC
+      currency_quote: USD
+      description: Ethereum vs US Dollar
+      asset_class: crypto
+
+  blackbull_mt5:
+    EURUSDp:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 6.0
+      min_lot_size: 0.01
+      max_lot_size: 500.0
+      lot_step: 0.01
+      currency_base: EUR
+      currency_quote: USD
+      description: Euro vs US Dollar
+      asset_class: forex
+    GBPUSDp:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 6.0
+      min_lot_size: 0.01
+      max_lot_size: 500.0
+      lot_step: 0.01
+      currency_base: GBP
+      currency_quote: USD
+      description: British Pound vs US Dollar
+      asset_class: forex
+    USDJPYp:
+      pip_size: 0.01
+      contract_size: 100000
+      commission: 6.0
+      min_lot_size: 0.01
+      max_lot_size: 500.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: JPY
+      description: US Dollar vs Japanese Yen
+      asset_class: forex
+    AUDUSDp:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 6.0
+      min_lot_size: 0.01
+      max_lot_size: 500.0
+      lot_step: 0.01
+      currency_base: AUD
+      currency_quote: USD
+      description: Australian Dollar vs US Dollar
+      asset_class: forex
+    NZDUSDp:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 6.0
+      min_lot_size: 0.01
+      max_lot_size: 500.0
+      lot_step: 0.01
+      currency_base: NZD
+      currency_quote: USD
+      description: New Zealand Dollar vs US Dollar
+      asset_class: forex
+    USDCADp:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 6.0
+      min_lot_size: 0.01
+      max_lot_size: 500.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: CAD
+      description: US Dollar vs Canadian Dollar
+      asset_class: forex
+    USDCHFp:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 6.0
+      min_lot_size: 0.01
+      max_lot_size: 500.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: CHF
+      description: US Dollar vs Swiss Franc
+      asset_class: forex
+    XAUUSDp:
+      pip_size: 0.01
+      contract_size: 100
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: XAU
+      currency_quote: USD
+      description: Gold vs US Dollar
+      asset_class: commodity
+    XAGUSDp:
+      pip_size: 0.01
+      contract_size: 100
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: XAG
+      currency_quote: USD
+      description: Silver vs US Dollar
+      asset_class: commodity
+    NAS100:
+      pip_size: 0.1
+      contract_size: 1
+      commission: 0.0
+      min_lot_size: 0.1
+      max_lot_size: 100.0
+      lot_step: 0.1
+      currency_base: USD
+      currency_quote: USD
+      description: Nasdaq 100 Index
+      asset_class: index
+    USTEC.f:
+      pip_size: 0.1
+      contract_size: 1
+      commission: 0.0
+      min_lot_size: 0.1
+      max_lot_size: 100.0
+      lot_step: 0.1
+      currency_base: USD
+      currency_quote: USD
+      description: Nasdaq 100 Index
+      asset_class: index futures
+    US30:
+      pip_size: 0.1
+      contract_size: 1
+      commission: 0.0
+      min_lot_size: 0.1
+      max_lot_size: 100.0
+      lot_step: 0.1
+      currency_base: USD
+      currency_quote: USD
+      description: DJ 30 Index
+      asset_class: index
+    DJ30.f:
+      pip_size: 0.1
+      contract_size: 1
+      commission: 0.0
+      min_lot_size: 0.1
+      max_lot_size: 100.0
+      lot_step: 0.1
+      currency_base: USD
+      currency_quote: USD
+      description: DJ 30 Index
+      asset_class: index futures
+    US500:
+      pip_size: 0.1
+      contract_size: 1
+      commission: 0.0
+      min_lot_size: 0.1
+      max_lot_size: 100.0
+      lot_step: 0.1
+      currency_base: USD
+      currency_quote: USD
+      description: S&P 500 Index
+      asset_class: index
+    US500.f:
+      pip_size: 0.1
+      contract_size: 1
+      commission: 0.0
+      min_lot_size: 0.1
+      max_lot_size: 100.0
+      lot_step: 0.1
+      currency_base: USD
+      currency_quote: USD
+      description: S&P 500 Index
+      asset_class: index futures
+    BTCUSD:
+      pip_size: 0.01
+      contract_size: 1
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 10.0
+      lot_step: 0.01
+      currency_base: BTC
+      currency_quote: USD
+      description: Bitcoin vs US Dollar
+      asset_class: crypto
+    ETHUSD:
+      pip_size: 0.01
+      contract_size: 1
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 10.0
+      lot_step: 0.01
+      currency_base: BTC
+      currency_quote: USD
+      description: Bitcoin vs US Dollar
+      asset_class: crypto
+
+  ib:
+    EURUSD:
+      pip_size: 0.00005
+      contract_size: 100000
+      commission: 2.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: EUR
+      currency_quote: USD
+      description: Euro vs US Dollar
+      asset_class: forex
+    GBPUSD:
+      pip_size: 0.00005
+      contract_size: 100000
+      commission: 2.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: GBP
+      currency_quote: USD
+      description: British Pound vs US Dollar
+      asset_class: forex
+    USDJPY:
+      pip_size: 0.005
+      contract_size: 100000
+      commission: 2.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: JPY
+      description: US Dollar vs Japanese Yen
+      asset_class: forex
+    AUDUSD:
+      pip_size: 0.00005
+      contract_size: 100000
+      commission: 2.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: AUD
+      currency_quote: USD
+      description: Australian Dollar vs US Dollar
+      asset_class: forex
+    NZDUSD:
+      pip_size: 0.00005
+      contract_size: 100000
+      commission: 2.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: NZD
+      currency_quote: USD
+      description: New Zealand Dollar vs US Dollar
+      asset_class: forex
+    USDCAD:
+      pip_size: 0.00005
+      contract_size: 100000
+      commission: 2.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: CAD
+      description: US Dollar vs Canadian Dollar
+      asset_class: forex
+    USDCHF:
+      pip_size: 0.00005
+      contract_size: 100000
+      commission: 2.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: CHF
+      description: US Dollar vs Swiss Franc
+      asset_class: forex
+
+  yahoo:
+    EURUSD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: EUR
+      currency_quote: USD
+      description: Euro vs US Dollar
+      asset_class: forex
+    GBPUSD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: GBP
+      currency_quote: USD
+      description: British Pound vs US Dollar
+      asset_class: forex
+    USDJPY:
+      pip_size: 0.01
+      contract_size: 100000
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: JPY
+      description: US Dollar vs Japanese Yen
+      asset_class: forex
+    AUDUSD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: AUD
+      currency_quote: USD
+      description: Australian Dollar vs US Dollar
+      asset_class: forex
+    NZDUSD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: NZD
+      currency_quote: USD
+      description: New Zealand Dollar vs US Dollar
+      asset_class: forex
+    USDCAD:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: CAD
+      description: US Dollar vs Canadian Dollar
+      asset_class: forex
+    USDCHF:
+      pip_size: 0.0001
+      contract_size: 100000
+      commission: 0.0
+      min_lot_size: 0.01
+      max_lot_size: 100.0
+      lot_step: 0.01
+      currency_base: USD
+      currency_quote: CHF
+      description: US Dollar vs Swiss Franc
+      asset_class: forex
