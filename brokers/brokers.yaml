@@ -1,0 +1,467 @@
+# ============================================================================
+# Broker configurations
+# ============================================================================
+# Each broker has its own section with connection details, symbol mappings,
+# and market hours.
+#
+# Market hours — P1.2 timezone fix:
+#   - All session times are in Eastern Time (America/New_York).
+#   - This matches MT5 broker convention: brokers follow US DST rules
+#     (UTC+2 standard / UTC+3 daylight), which is America/New_York + 7h.
+#   - By using the IANA timezone "America/New_York", the zoneinfo library
+#     handles DST transitions automatically — including the 2-week gap
+#     between US and EU DST where static UTC+2 would be wrong.
+#   - Per-asset-class session definitions with multiple sessions per day.
+#   - Empty list [] means market is closed that day.
+#
+# server_offset_hours (P5.11):
+#   - Data timestamps (in parquet files) are in MT5 server time.
+#   - MT5 server time = ET + server_offset_hours (always +7h for MT5
+#     brokers because both follow US DST rules).
+#   - The gap detector uses this offset to convert session break times
+#     (defined in ET) to server time for comparison with data timestamps.
+#   - If a broker stores data in ET directly, set server_offset_hours to 0.
+#
+# Holidays are now sourced dynamically from the calendar_news module
+# (FinnhubCalendarManager) — no static list needed in brokers.yaml.
+# ============================================================================
+
+brokers:
+  oanda:
+    enabled: false
+    api:
+      token: YOUR_OANDA_API_TOKEN
+      account_id: YOUR_ACCOUNT_ID
+      environment: practice
+    endpoints:
+      practice: https://api-fxpractice.oanda.com
+      live: https://api-fxtrade.oanda.com
+    symbol_mapping:
+      EURUSD: EUR_USD
+      GBPUSD: GBP_USD
+      USDJPY: USD_JPY
+      AUDUSD: AUD_USD
+      NZDUSD: NZD_USD
+      USDCAD: USD_CAD
+      USDCHF: USD_CHF
+    market_hours:
+      forex:
+        sunday:
+        - open: '17:00'
+          close: '23:59'
+        monday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        tuesday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        wednesday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        thursday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        friday:
+        - open: 00:00
+          close: '16:50'
+        saturday: []
+      metals:
+        sunday:
+        - open: '18:00'
+          close: '23:59'
+        monday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        tuesday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        wednesday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        thursday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        friday:
+        - open: 00:00
+          close: '16:50'
+        saturday: []
+      indices:
+        sunday:
+        - open: '18:00'
+          close: '23:59'
+        monday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        tuesday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        wednesday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        thursday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        friday:
+        - open: 00:00
+          close: '16:00'
+        saturday: []
+      timezone: America/New_York
+      server_offset_hours: 0
+  icm_mt5:
+    enabled: false
+    connection:
+      path: C:/MetaTrader5/terminal64.exe
+      server: ICMarketsSC-Demo
+      login: 52595898
+      password: d2A&Ci5OdM7pnQ
+      timeout: 60000
+    symbol_mapping:
+      USDJPY: USDJPY
+      AUDUSD: AUDUSD
+      NZDUSD: NZDUSD
+      EURUSD: EURUSD
+      GBPUSD: GBPUSD
+      USDCHF: USDCHF
+      USDCAD: USDCAD
+      XAUUSD: XAUUSD
+      XAGUSD: XAGUSD
+      US100: USTEC
+      US30: US30
+      US500: US500
+      BTCUSD: BTCUSD
+      ETHUSD: ETHUSD
+    market_hours:
+      forex:
+        sunday:
+        - open: '17:00'
+          close: '23:59'
+        monday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        tuesday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        wednesday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        thursday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        friday:
+        - open: 00:00
+          close: '16:50'
+        saturday: []
+      metals:
+        sunday:
+        - open: '18:00'
+          close: '23:59'
+        monday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        tuesday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        wednesday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        thursday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        friday:
+        - open: 00:00
+          close: '16:50'
+        saturday: []
+      indices:
+        sunday:
+        - open: '18:00'
+          close: '23:59'
+        monday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        tuesday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        wednesday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        thursday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        friday:
+        - open: 00:00
+          close: '16:00'
+        saturday: []
+      timezone: America/New_York
+      server_offset_hours: 7
+  blackbull_mt5:
+    enabled: true
+    connection:
+      path: C:/MetaTrader5/terminal64.exe
+      server: BlackBullMarkets-Demo
+      login: 722086
+      password: lal123_Black
+      timeout: 60000
+    symbol_mapping:
+      USDJPY: USDJPYp
+      AUDUSD: AUDUSDp
+      NZDUSD: NZDUSDp
+      EURUSD: EURUSDp
+      GBPUSD: GBPUSDp
+      USDCHF: USDCHFp
+      USDCAD: USDCADp
+      XAUUSD: XAUUSDp
+      XAGUSD: XAGUSDp
+      US100: NAS100
+      US100f: USTEC.f
+      US30: US30
+      US30f: DJ30.f
+      US500: US500
+      US500f: US500.f
+      BTCUSD: BTCUSD
+      ETHUSD: ETHUSD
+    market_hours:
+      forex:
+        sunday:
+        - open: '17:00'
+          close: '23:59'
+        monday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        tuesday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        wednesday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        thursday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        friday:
+        - open: 00:00
+          close: '16:50'
+        saturday: []
+      metals:
+        sunday:
+        - open: '18:00'
+          close: '23:59'
+        monday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        tuesday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        wednesday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        thursday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        friday:
+        - open: 00:00
+          close: '16:50'
+        saturday: []
+      indices:
+        sunday:
+        - open: '18:00'
+          close: '23:59'
+        monday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        tuesday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        wednesday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        thursday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        friday:
+        - open: 00:00
+          close: '16:00'
+        saturday: []
+      timezone: America/New_York
+      server_offset_hours: 7
+  ib:
+    enabled: false
+    connection:
+      host: 127.0.0.1
+      port: 7497
+      client_id: 1
+    symbol_mapping:
+      EURUSD: EUR.USD
+      GBPUSD: GBP.USD
+      USDJPY: USD.JPY
+      AUDUSD: AUD.USD
+      NZDUSD: NZD.USD
+      USDCAD: USD.CAD
+      USDCHF: USD.CHF
+    market_hours:
+      forex:
+        sunday:
+        - open: '17:00'
+          close: '23:59'
+        monday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        tuesday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        wednesday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        thursday:
+        - open: 00:00
+          close: '16:55'
+        - open: '17:05'
+          close: '23:59'
+        friday:
+        - open: 00:00
+          close: '16:50'
+        saturday: []
+      metals:
+        sunday:
+        - open: '18:00'
+          close: '23:59'
+        monday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        tuesday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        wednesday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        thursday:
+        - open: 00:00
+          close: '16:58'
+        - open: '18:01'
+          close: '23:59'
+        friday:
+        - open: 00:00
+          close: '16:50'
+        saturday: []
+      indices:
+        sunday:
+        - open: '18:00'
+          close: '23:59'
+        monday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        tuesday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        wednesday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        thursday:
+        - open: 00:00
+          close: '16:15'
+        - open: '18:00'
+          close: '23:59'
+        friday:
+        - open: 00:00
+          close: '16:00'
+        saturday: []
+      timezone: America/New_York
+      server_offset_hours: 0
+  yahoo:
+    enabled: true
+    symbol_mapping:
+      EURUSD: EURUSD=X
+      GBPUSD: GBPUSD=X
+      USDJPY: USDJPY=X
+      AUDUSD: AUDUSD=X
+      NZDUSD: NZDUSD=X
+      USDCAD: USDCAD=X
+      USDCHF: USDCHF=X
