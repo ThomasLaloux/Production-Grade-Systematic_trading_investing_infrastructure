@@ -16,7 +16,7 @@ Core infrastructure for a systematic trading/investing system (on-going developm
 The code publicly shared in this project concern the standard sections core, data, brokers and reporting; 
 other sections are currently private, as some of them encapsulate financial edge in the underlying methodology.
 
-## Project Structure
+## Architecture
 ```
 trading_system/
 ├── README.md
@@ -32,8 +32,8 @@ trading_system/
 │   ├── data_manager.py                # DataManager - download/sync/query data
 │   ├── data_source_base.py            # DataSourceBase - abstract data source
 │   ├── data_ib.py                     # DataSourceIB
-│   ├── data_yahoo.py                  # DataSourceYahoo
 │   ├── data_oanda.py                  # DataSourceOanda
+│   ├── data_yahoo.py                  # DataSourceYahoo
 │   ├── parquet_handler.py             # ParquetHandler
 │   ├── duckdb_handler.py              # DuckDBHandler
 │   ├── data_quality.py                # DataQualityChecker, QualityReport
@@ -51,7 +51,7 @@ trading_system/
 ├── indicators/
 │   ├── __init__.py
 │   ├── indicator_base.py              # IndicatorBase - abstract indicator
-│   ├── trend_indicators.py            # SMA (testing purpose)
+│   ├── trend_indicators.py
 │   ├── momentum_indicators.py
 │   └── volatility_indicators.py
 ├── strategies/
@@ -137,13 +137,6 @@ Each module has its own configurator and YAML file:
 | optimization | OptimizationConfigurator | optimization/optimization_params.yaml |
 | portfolio | PortfolioConfigurator | portfolio/portfolio_params.yaml |
 | live | LiveConfigurator | live/live_params.yaml |
-
-
-## Two Configuration Approaches
-
-**Approach A (R&D)**: Parameters passed directly in Python - faster iteration
-
-**Approach B (Production)**: Parameters loaded from YAML file - auditable, version-controlled
 
 ## License
 Proprietary - Internal Use Only
